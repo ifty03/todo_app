@@ -25,12 +25,12 @@ const TodoModal = ({ setTodoData }) => {
   };
   return (
     <div className="">
-      <input type="checkbox" id="todo-modal" class="modal-toggle" />
-      <div class="modal modal-bottom sm:modal-middle bg-gray-700">
-        <div class="modal-box">
+      <input type="checkbox" id="todo-modal" className="modal-toggle" />
+      <div className="modal modal-bottom sm:modal-middle bg-gray-700">
+        <div className="modal-box">
           <label
             for="todo-modal"
-            class="btn btn-sm btn-circle btn-accent absolute right-2 top-2"
+            className="btn btn-sm btn-circle btn-accent absolute right-2 top-2"
           >
             ✕
           </label>
@@ -38,30 +38,30 @@ const TodoModal = ({ setTodoData }) => {
             Add A Todo!
           </h3>
           <form onSubmit={handelTodoSubmit}>
-            <div class="form-control">
-              <label class="label">
-                <span class="label-text">Task Name</span>
+            <div className="form-control">
+              <label className="label">
+                <span className="label-text">Task Name</span>
               </label>
               <input
                 type="text"
                 placeholder="Task Name"
                 name="name"
                 required
-                class="input input-bordered"
+                className="input input-bordered"
               />
             </div>
-            <div class="form-control">
-              <label class="label">
-                <span class="label-text">Description</span>
+            <div className="form-control">
+              <label className="label">
+                <span className="label-text">Description</span>
               </label>
               <textarea
-                class="textarea textarea-bordered h-32"
+                className="textarea textarea-bordered h-32"
                 placeholder="Task Description"
                 required
                 name="description"
               ></textarea>
             </div>
-            <div class="modal-action">
+            <div className="modal-action">
               <input type="submit" className="btn btn-accent" value="ADD !" />
             </div>
           </form>
