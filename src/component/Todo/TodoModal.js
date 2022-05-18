@@ -1,18 +1,27 @@
 import React from "react";
+import { useAuthState } from "react-firebase-hooks/auth";
+import toast from "react-hot-toast";
+import auth from "../../firebase.init";
 
-const TodoModal = () => {
+const TodoModal = ({ setTodoData }) => {
+  const [user] = useAuthState(auth);
+
   const handelTodoSubmit = (e) => {
     e.preventDefault();
     const name = e.target.name.value;
     const description = e.target.description.value;
-    const todo = { name, description };
+    const email = user?.email;
+    const todo = { name, description, email };
     fetch("http://localhost:5000/todo", {
       method: "POST",
       headers: { "content-type": "application/json" },
       body: JSON.stringify(todo),
     })
       .then((res) => res.json())
-      .then((data) => console.log("data", data));
+      .then((data) => {
+        setTodoData(null);
+        toast.success("New todo added");
+      });
   };
   return (
     <div className="">
@@ -56,9 +65,6 @@ const TodoModal = () => {
               <input type="submit" className="btn btn-accent" value="ADD !" />
             </div>
           </form>
-          <div class="modal-action">
-            <label for="todo-modal">Add !</label>
-          </div>
         </div>
       </div>
     </div>

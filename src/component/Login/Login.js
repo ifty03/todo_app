@@ -22,6 +22,13 @@ const Login = () => {
   const [user] = useAuthState(auth);
   let navigate = useNavigate();
   let location = useLocation();
+  let from = location.state?.from?.pathname || "/";
+
+  useEffect(() => {
+    if (user) {
+      navigate(from, { replace: true });
+    }
+  }, [user, from, navigate]);
 
   /* loading spinner */
   if (gLoading || eLoading || resetSending) {

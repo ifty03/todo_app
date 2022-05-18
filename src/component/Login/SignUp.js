@@ -22,6 +22,13 @@ const SignUp = () => {
   const [signInWithGoogle, gUser, gLoading, gError] = useSignInWithGoogle(auth);
   const [sendEmailVerification, sending] = useSendEmailVerification(auth);
 
+  let from = location.state?.from?.pathname || "/";
+
+  useEffect(() => {
+    if (user) {
+      navigate(from, { replace: true });
+    }
+  }, [user, from, navigate]);
   if (gLoading || loading || updating || sending) {
     return <Spinner />;
   }
