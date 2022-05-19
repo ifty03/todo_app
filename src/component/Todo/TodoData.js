@@ -41,7 +41,7 @@ const TodoData = ({ setTodoData, update }) => {
     });
   };
   const handelComplete = (id) => {
-    fetch(`http://localhost:5000/todo/${id}`, {
+    fetch(`https://young-stream-12873.herokuapp.com/todo/${id}`, {
       method: "PUT",
       headers: { "content-type": "application/json" },
       body: JSON.stringify({ complete }),
