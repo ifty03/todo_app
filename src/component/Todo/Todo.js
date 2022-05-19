@@ -4,13 +4,17 @@ import TodoModal from "./TodoModal";
 
 const Todo = () => {
   const [todoData, setTodoData] = useState(null);
-
+  const [update, setUpdate] = useState(false);
   return (
     <div className="flex items-center min-h-screen">
       <div className="card  bg-gray-700 lg:max-w-[50%] mx-auto shadow-xl">
         <div className="card-body">
           <h2 className="card-title text-2xl mx-auto">Your Todo List!</h2>
-          <TodoData todoData={todoData} setTodoData={setTodoData} />
+          <TodoData
+            update={update}
+            todoData={todoData}
+            setTodoData={setTodoData}
+          />
 
           <div className="card-actions justify-center ">
             <label
@@ -22,7 +26,13 @@ const Todo = () => {
           </div>
         </div>
       </div>
-      {todoData && <TodoModal setTodoData={setTodoData} />}
+      {todoData && (
+        <TodoModal
+          setUpdate={setUpdate}
+          update={update}
+          setTodoData={setTodoData}
+        />
+      )}
     </div>
   );
 };

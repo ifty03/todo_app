@@ -3,7 +3,7 @@ import { useAuthState } from "react-firebase-hooks/auth";
 import toast from "react-hot-toast";
 import auth from "../../firebase.init";
 
-const TodoModal = ({ setTodoData }) => {
+const TodoModal = ({ setTodoData, setUpdate, update }) => {
   const [user] = useAuthState(auth);
 
   const handelTodoSubmit = (e) => {
@@ -12,7 +12,7 @@ const TodoModal = ({ setTodoData }) => {
     const description = e.target.description.value;
     const email = user?.email;
     const todo = { name, description, email };
-    fetch("http://localhost:5000/todo", {
+    fetch("https://young-stream-12873.herokuapp.com/todo", {
       method: "POST",
       headers: { "content-type": "application/json" },
       body: JSON.stringify(todo),
@@ -20,6 +20,7 @@ const TodoModal = ({ setTodoData }) => {
       .then((res) => res.json())
       .then((data) => {
         setTodoData(null);
+        setUpdate(!update);
         toast.success("New todo added");
       });
   };

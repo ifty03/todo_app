@@ -1,14 +1,19 @@
-import React from "react";
+import React, { useState } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
+import toast from "react-hot-toast";
 import { useQuery } from "react-query";
 import Swal from "sweetalert2";
 import auth from "../../firebase.init";
 import Spinner from "../Shared/Spinner/Spinner";
 
-const TodoData = ({ setTodoData }) => {
+const TodoData = ({ setTodoData, update }) => {
   const [user] = useAuthState(auth);
-  const { data, isLoading, refetch } = useQuery("todo", () =>
-    fetch(`http://localhost:5000/todo/?email=${user?.email}`).then((res) => {
+  const [complete, setComplete] = useState(false);
+  console.log(complete);
+  const { data, isLoading, refetch } = useQuery(["todo", update], () =>
+    fetch(
+      `https://young-stream-12873.herokuapp.com/todo/?email=${user?.email}`
+    ).then((res) => {
       setTodoData(data || []);
       return res.json();
     })
@@ -24,7 +29,7 @@ const TodoData = ({ setTodoData }) => {
       confirmButtonText: "Yes, delete it!",
     }).then((result) => {
       if (result.isConfirmed) {
-        fetch(`http://localhost:5000/todo/${id}`, {
+        fetch(`https://young-stream-12873.herokuapp.com/todo/${id}`, {
           method: "DELETE",
         })
           .then((res) => res.json())
@@ -34,6 +39,18 @@ const TodoData = ({ setTodoData }) => {
         Swal.fire("Deleted!", "Your file has been deleted.", "success");
       }
     });
+  };
+  const handelComplete = (id) => {
+    fetch(`http://localhost:5000/todo/${id}`, {
+      method: "PUT",
+      headers: { "content-type": "application/json" },
+      body: JSON.stringify({ complete }),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        refetch();
+        toast.success("Todo is completed");
+      });
   };
 
   if (isLoading) {
@@ -55,7 +72,15 @@ const TodoData = ({ setTodoData }) => {
             <tr>
               <th>
                 <label>
-                  <input type="checkbox" className="checkbox" />
+                  <input
+                    onChange={(e) => setComplete(e.target.checked)}
+                    onClick={() => {
+                      handelComplete(todo._id);
+                    }}
+                    name="checked"
+                    type="checkbox"
+                    className="checkbox"
+                  />
                 </label>
               </th>
               <td>{todo?.name}</td>
